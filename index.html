@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kaisei+Decol&display=swap" rel="stylesheet">
+    <meta property="og:title" content="青空構文ジェネレーター">
+    <meta property="og:description" content="青空構文を簡単に生成出来ます">
+    <meta property="og:image" content="https://code-raisan.github.io/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:site_name" content="青空構文ジェネレーター">
+    <meta property="og:locale" content="ja_JP">
+    <title>青空構文ジェネレーター</title>
+</head>
+<body>
+    <main class="container">
+        <section>
+
+            <h1>青空構文ジェネレーター</h1>
+        </section>
+        <section style="margin-top: 25px;">
+            <div class="form_container">
+                <label for="exampleInputEmail1" class="form-label">騒いでいること</label>
+                <input type="text" id="text_no" class="form-control">
+            </div>
+            <div class="form_container">
+                <label for="exampleInputEmail1" class="form-label">大丈夫なもの</label>
+                <input type="text" id="text_yes" class="form-control">
+            </div>
+            <button id="btn" class="btn btn-primary" style="margin-top: 10px;">生成</button>
+        </section>
+        <section style="margin-top: 30px;">
+            <input type="text" id="result" class="form-control" disabled>
+            <div class="btn-group" role="group" aria-label="Basic example" style="margin-top: 10px; width: 100%;">
+                <button type="button" class="btn btn-primary" id="copy">Copy</button>
+                <button type="button" class="btn btn-primary" id="tweet">Tweetする</button>
+            </div>
+        </section>
+    </main>
+    <style>
+        *{
+            font-family: "Kaisei Decol", serif;
+        }
+
+        .container{
+            margin-top: 50px;
+        }
+
+        .form_container{
+            margin-top: 10px;
+        }
+
+        .btn {
+            width: 100%;
+        }
+    </style>
+    <script>
+        const text_no = document.getElementById("text_no");
+        const text_yes = document.getElementById("text_yes");
+        const btn = document.getElementById("btn");
+        const result = document.getElementById("result");
+        const copy = document.getElementById("copy");
+        const tweet = document.getElementById("tweet");
+
+        btn.onclick = () => {
+            if(text_no.value != "" && text_yes.value != ""){
+                const template = `皆さん、「${text_no.value}、${text_no.value}」と騒ぐのはやめましょう。合言葉は、「#普通に${text_yes.value}で大丈夫」です。`;
+                result.value = template;
+            }else{
+                alert("すべての項目に入力してください");
+            }
+        }
+
+        copy.onclick = () =>{
+            if(result.value != ""){
+                navigator.clipboard.writeText(result.value).then(e => {
+                    alert("コピーしました");
+                });
+            }
+        }
+
+        tweet.onclick = () =>{
+            if(result.value != ""){
+                window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(result.value + "\n\n#青空構文ジェネレーター\n" + window.location)}`);
+            }
+        }
+    </script>
+</body>
+</html>
