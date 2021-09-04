@@ -35,16 +35,22 @@
 <body>
     <main class="container">
         <section>
-
             <h1>青空構文ジェネレーター</h1>
         </section>
         <section style="margin-top: 25px;">
             <div class="form_container">
-                <label for="exampleInputEmail1" class="form-label">騒いでいること</label>
-                <input type="text" id="text_no" class="form-control">
+                <label for="stype" class="form-label">構文の種類</label>
+                <select class="form-select" aria-label="Default select example" id="stype">
+                    <option selected value="0">皆さん、「○○、○○」と騒ぐのはやめましょう。合言葉は、「#普通に△△で大丈夫」です。</option>
+                    <option value="1">○○、やめよう！ ○○、ダメ！ ○○禁止！</option>
+                </select>
             </div>
             <div class="form_container">
-                <label for="exampleInputEmail1" class="form-label">大丈夫なもの</label>
+                <label for="text_no" class="form-label" id="text_no_label">騒いでいること</label>
+                <input type="text" id="text_no" class="form-control">
+            </div>
+            <div class="form_container" id="text_yes_con">
+                <label for="text_yes" class="form-label">大丈夫なもの</label>
                 <input type="text" id="text_yes" class="form-control">
             </div>
             <button id="btn" class="btn btn-primary" style="margin-top: 10px;">生成</button>
@@ -81,13 +87,35 @@
         const result = document.getElementById("result");
         const copy = document.getElementById("copy");
         const tweet = document.getElementById("tweet");
+        const stype = document.getElementById("stype");
+        const text_no_label = document.getElementById("text_no_label");
+        const text_yes_con = document.getElementById("text_yes_con");
+
+        stype.onchange = () =>{
+            if(stype.value == "0"){
+                text_yes_con.style.display = "";
+                text_no_label.innerText = "騒いでいること";
+            }else if(stype.value = "1"){
+                text_yes_con.style.display = "none"
+                text_no_label.innerText = "ダメなこと";
+            }
+        }
 
         btn.onclick = () => {
-            if(text_no.value != "" && text_yes.value != ""){
-                const template = `皆さん、「${text_no.value}、${text_no.value}」と騒ぐのはやめましょう。合言葉は、「#普通に${text_yes.value}で大丈夫」です。`;
-                result.value = template;
-            }else{
-                alert("すべての項目に入力してください");
+            if(stype.value == "0"){
+                if(text_no.value != "" && text_yes.value != ""){
+                    let template = `皆さん、「${text_no.value}、${text_no.value}」と騒ぐのはやめましょう。合言葉は、「#普通に${text_yes.value}で大丈夫」です。`;
+                    result.value = template;
+                }else{
+                    alert("すべての項目に入力してください");
+                }
+            }else if(stype.value = "1"){
+                if(text_no.value != ""){
+                    let template = `${text_no.value}、やめよう！ ${text_no.value}、ダメ！ ${text_no.value}禁止！`;
+                    result.value = template;
+                }else{
+                    alert("すべての項目に入力してください");
+                }
             }
         }
 
